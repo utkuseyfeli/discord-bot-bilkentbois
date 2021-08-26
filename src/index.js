@@ -1,11 +1,15 @@
 const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, Intents, Channel } = require('discord.js');
 const { token } = require('../config.json');
+// const { channel } = require('diagnostics_channel');
+const { joinVoiceChannel } = require('@discordjs/voice');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+const channel = new Channel(client);
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -32,6 +36,3 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(token);
-
-// npm i @discordjs/voice
-// dur önce yazdığını
